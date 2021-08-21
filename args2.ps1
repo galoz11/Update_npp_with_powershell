@@ -18,3 +18,6 @@ write-host "ba type:" $ba.GetType().Name
 write-host "There are a total of $($param.count) arguments"
 
 write-host
+
+$data = 'Zero3453453','One354345','Two354','Three35434' 
+return $data
