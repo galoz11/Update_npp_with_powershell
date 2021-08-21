@@ -1,5 +1,5 @@
 
-param($aa, $ba='Odyessy', $ca,[validateset('bb','vv')][Parameter(Mandatory)]$servername) #should be the first line of a script
+param($aa, $ba='Odyessy', $ca,[Parameter(Mandatory)]$servername) #should be the first line of a script
 
 
 write-host
