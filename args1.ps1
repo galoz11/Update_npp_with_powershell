@@ -1,2 +1,3 @@
 
-powershell .\args2.ps1 -aa "55" -ba "44" -ca "22"
+
+powershell .\args2.ps1 -aa "aa55" $true -ca "ca22"
