@@ -50,3 +50,33 @@ $server = $testIni.database.server
 $organization = $testIni.owner.organization
 $server
 $organization
+
+
+function Set-OrAddIniValue
+{
+    Param(
+        [string]$FilePath,
+        [hashtable]$keyValueList
+    )
+
+    $content = Get-Content 'G:\PowerShell\g.ini'
+
+    $keyValueList.GetEnumerator() | ForEach-Object {
+        if ($content -match "^$($_.Key)=")
+        {
+            $content= $content -replace "^$($_.Key)=(.*)", "$($_.Key)=$($_.Value)"
+        }
+        else
+        {
+            $content += "$($_.Key)=$($_.Value)"
+        }
+    }
+
+    $content | Set-Content 'G:\PowerShell\g.ini'
+}
+
+Set-OrAddIniValue -FilePath ‪'G:\PowerShell\g.ini'  -keyValueList @{
+    UserName = "myName"
+    UserEmail = "myEmail"
+    UserNewField = "SeemsToWork"
+}
