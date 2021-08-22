@@ -47,9 +47,10 @@ function Get-IniFile
 
 $testIni  = Get-IniFile 'g.ini'
 $server = $testIni.database.server
-$organization = $testIni.owner.organization
+$organization = $testIni.NoSection.guy
 $server
 $organization
+$testIni['NoSection']
 
 
 function Set-OrAddIniValue
@@ -59,7 +60,7 @@ function Set-OrAddIniValue
         [hashtable]$keyValueList
     )
 
-    $content = Get-Content 'G:\PowerShell\g.ini'
+    $content = Get-Content $FilePath
 
     $keyValueList.GetEnumerator() | ForEach-Object {
         if ($content -match "^$($_.Key)=")
@@ -72,10 +73,10 @@ function Set-OrAddIniValue
         }
     }
 
-    $content | Set-Content 'G:\PowerShell\g.ini'
+    $content | Set-Content $FilePath
 }
 
-Set-OrAddIniValue -FilePath ‪'G:\PowerShell\g.ini'  -keyValueList @{
+Set-OrAddIniValue -FilePath 'g.ini'  -keyValueList @{
     UserName = "myName"
     UserEmail = "myEmail"
     UserNewField = "SeemsToWork"
