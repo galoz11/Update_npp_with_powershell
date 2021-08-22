@@ -6,7 +6,7 @@ write-host
 # ; is use to write command in the same line
 $pFolder = "D:\myScripts\Powershell\ttt"
 
-Try{. .\RemoveAndExlude.ps1 -pFolder D:\myScripts\Powershell\ttt -pa1 "wordPa2" -ErrorAction Stop}
+Try{. .\callRemove3.ps1 -pFolder D:\myScripts\Powershell\ttt -pa1 "wordPa2" -ErrorAction Stop}
 Catch{Write-Warning "The File: RemoveAndExlude.ps1 couldn't be found.."; exit 71}
 
 
