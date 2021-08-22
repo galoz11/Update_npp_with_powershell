@@ -1,11 +1,11 @@
-@ECHO OFF&& SETLOCAL&& PUSHD "%~dp0"
+@ECHO  SETLOCAL&& PUSHD "%~dp0"
 TITLE Galoz CMD and Powershell
 ECHO.
 ECHO 	##############################
 ECHO 	## Galoz CMD and Powershell ##
 ECHO 	##############################
 ECHO.
-Powershell -ExecutionPolicy ByPass -File "D:\myScripts\Powershell\power.ps1" "mosh1"
+Powershell -ExecutionPolicy ByPass -File "power.ps1" "mosh1"
 
 REM -Command "& '.\power.ps1 mosh2'"
 REM setlocal EnableDelayedExpansion

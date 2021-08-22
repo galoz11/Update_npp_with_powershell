@@ -16,8 +16,9 @@ Write-Host you choose the File: $aApp
 Set-Content -Path $dataFile -Value $aApp -Force
 
 } else {
-
 $aApp = Get-Content -Path .\Data\settings.txt
+## TODO check if content is valid
+if($aApp -like "*notepad++.exe"){Write-Host "$aApp contaiiiin"}else{Write-Host " $aApp NOT contaiiiin"}
 Write-Host 
 Write-Host "Your Portable Notepad++ Location is Set to:"
 Write-Host "    " $aApp -ForegroundColor Green
