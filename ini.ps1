@@ -1,33 +1,17 @@
 function Get-IniFile {
     <#
-    .SYNOPSIS
-    Read an ini file.
-    
-    .DESCRIPTION
-    Reads an ini file into a hash table of sections with keys and values.
-    
-    .PARAMETER filePath
-    The path to the INI file.
-    
-    .PARAMETER anonymous
-    The section name to use for the anonymous section (keys that come before any section declaration).
-    
-    .PARAMETER comments
-    Enables saving of comments to a comment section in the resulting hash table.
+    .SYNOPSIS:    Read an ini file.
+    .DESCRIPTION:  Reads an ini file into a hash table of sections with keys and values.
+    .PARAMETER filePath :   The path to the INI file.
+    .PARAMETER anonymous : The section name to use for the anonymous section (keys that come before any section declaration).
+    .PARAMETER comments: Enables saving of comments to a comment section in the resulting hash table.
     The comments for each section will be stored in a section that has the same name as the section of its origin, but has the comment suffix appended.
     Comments will be keyed with the comment key prefix and a sequence number for the comment. The sequence number is reset for every section.
     
-    .PARAMETER commentsSectionsSuffix
-    The suffix for comment sections. The default value is an underscore ('_').
-
-    .PARAMETER commentsKeyPrefix
-    The prefix for comment keys. The default value is 'Comment'.
-    
-    .EXAMPLE
-    Get-IniFile /path/to/my/inifile.ini
-    
-    .NOTES
-    The resulting hash table has the form [sectionName->sectionContent], where sectionName is a string and sectionContent is a hash table of the form [key->value] where both are strings.
+    .PARAMETER commentsSectionsSuffix: The suffix for comment sections. The default value is an underscore ('_').
+    .PARAMETER commentsKeyPrefix: The prefix for comment keys. The default value is 'Comment'.
+    .EXAMPLE:  Get-IniFile /path/to/my/inifile.ini
+    .NOTES: The resulting hash table has the form [sectionName->sectionContent], where sectionName is a string and sectionContent is a hash table of the form [key->value] where both are strings.
 
     This function is largely copied from https://stackoverflow.com/a/43697842/1031534. An improved version has since been pulished at https://gist.github.com/beruic/1be71ae570646bca40734280ea357e3c.
     #>
@@ -117,12 +101,45 @@ function New-IniContent {
     }
 }
 
+
+function Out-IniFile($InputObject, $FilePath)
+{
+    $outFile = New-Item -Force -ItemType file -Path $Filepath
+    foreach ($i in $InputObject.keys)
+    {
+        if (!($($InputObject[$i].GetType().Name) -eq "Hashtable"))
+        {
+            #No Sections
+            Add-Content -Path $outFile -Value "$i=$($InputObject[$i])"
+        } else {
+            #Sections
+            Add-Content -Path $outFile -Value "[$i]"
+            Foreach ($j in ($InputObject[$i].keys | Sort-Object))
+            {
+                if ($j -match "^Comment[\d]+") {
+                    Add-Content -Path $outFile -Value "$($InputObject[$i][$j])"
+                } else {
+                    Add-Content -Path $outFile -Value "$j=$($InputObject[$i][$j])"
+                }
+
+            }
+            Add-Content -Path $outFile -Value ""
+        }
+    }
+}
+
+
 $testIni  = Get-IniFile 'g.ini'
 $ggg = $testIni.noSection.guy
 $ggg1 = $testIni.owner.name
+$ggg2 = $testIni.owner.comments
+
+$testIni.owner.name = "66-1920"
+Out-IniFile $testIni g.ini
 
 Write-Host $ggg
 Write-Host $ggg1
+Write-Host $ggg2
 
 #$testIni  | Get-Member
 

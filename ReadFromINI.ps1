@@ -1,4 +1,3 @@
-
 function Get-IniFile 
 {  
     param(  
