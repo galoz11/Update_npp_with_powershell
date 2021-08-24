@@ -1,12 +1,12 @@
-function Get-IniFile 
-{  
+
+function Get-IniFile {  
+    [CmdletBinding()]
     param(  
         [parameter(Mandatory = $true)] [string] $filePath  
     )  
     
     $anonymous = "NoSection"
-  
-    $ini = @{}  
+      $ini = @{}  
     switch -regex -file $filePath  
     {  
         "^\[(.+)\]$" # Section  
@@ -14,6 +14,7 @@ function Get-IniFile
             $section = $matches[1]  
             $ini[$section] = @{}  
             $CommentCount = 0  
+            write-debug $matches[1]  
         }  
 
         "^(;.*)$" # Comment  
@@ -58,9 +59,7 @@ function Set-OrAddIniValue
         [string]$FilePath,
         [hashtable]$keyValueList
     )
-
     $content = Get-Content $FilePath
-
     $keyValueList.GetEnumerator() | ForEach-Object {
         if ($content -match "^$($_.Key)=")
         {
