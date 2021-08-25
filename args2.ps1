@@ -19,5 +19,5 @@ write-host "There are a total of $($param.count) arguments"
 
 write-host
 
-$data = 'Zero3453453','One354345','Two354','Three35434' 
+$data = 'Zer_gi453','One354345','Two354','Three35434' 
 return $data
