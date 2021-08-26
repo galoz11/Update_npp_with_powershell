@@ -11,7 +11,6 @@ $fileName = "npp.$versionTrim.portable.x64.zip"
 
 Write-Host Dowloading latest release
 $download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/$latestVersion/$fileName"
-$zip = "g:\$fileName"
 Write-Host $download
 Write-Host $fileName
 Write-Host $ENV:UserProfile\Desktop\$fileName
