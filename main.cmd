@@ -7,7 +7,7 @@ ECHO 	##############################
 ECHO.
 Powershell -ExecutionPolicy ByPass -File "power.ps1" "mosh1"
 
-REM -Command "& '.\power.ps1 mosh2'"
+REM -Command "& '.\power.ps1 mosh2'"  
 REM setlocal EnableDelayedExpansion
 REM set n=0
 REM for /f "delims=" %%a in ('Powershell.exe -NoProfile -ExecutionPolicy ByPass -Command .\power.ps1 mosh2') do (
