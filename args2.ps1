@@ -1,6 +1,6 @@
 
-param($aa, $ba='Odyessy', $ca,[Parameter(Mandatory)]$servername) #should be the first line of a script
-
+param($aa, $ba='Odyessy', $ca,[Parameter(Mandatory)]$servername) 
+#should be the first line of a script
 
 write-host aa = $aa
 write-host ca = $ca
