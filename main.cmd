@@ -19,5 +19,6 @@ REM echo Exit Code is %LastExitCode%
 REM Echo Value received from Powershell : %vector[1]%
 ENDLOCAL 
 
+
 pause
 exit /b
