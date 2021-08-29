@@ -6,7 +6,8 @@ function Get-IniFile {
     )  
     
     $anonymous = "NoSection"
-      $ini = @{}  
+    $ini = @{}  
+    
     switch -regex -file $filePath  
     {  
         "^\[(.+)\]$" # Section  
@@ -45,11 +46,13 @@ function Get-IniFile {
     return $ini  
 }  
 
+# Crear an hash Object and call its members
 $testIni  = Get-IniFile 'g.ini'
 $server = $testIni.database.server
 $organization = $testIni.NoSection.guy
-$server
-$organization
+Write-Host "database.server =" $server
+Write-Host "NoSection.guy =" $organization
+Write-Host "testIni['NoSection'] =" $testIni['NoSection']
 $testIni['NoSection']
 
 
