@@ -15,6 +15,7 @@ REM for /f "delims=" %%a in ('Powershell.exe -NoProfile -ExecutionPolicy ByPass 
    REM set /A n+=1
 REM )
 REM echo Exit Code is %LastExitCode%
+
 REM Echo Value received from Powershell : %vector[1]%
 ENDLOCAL 
 
