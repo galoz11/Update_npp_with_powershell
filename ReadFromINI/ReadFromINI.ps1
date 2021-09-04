@@ -50,8 +50,8 @@ function Get-IniFile {
 $testIni  = Get-IniFile 'g.ini'
 $server = $testIni.database.server
 $organization = $testIni.NoSection.guy
-Write-Host "database.server =" $server
-Write-Host "NoSection.guy =" $organization
+Write-Host "database server is =" $server
+Write-Host "NoSection guy is  =" $organization
 Write-Host "testIni['NoSection'] =" $testIni['NoSection']
 $testIni['NoSection']
 

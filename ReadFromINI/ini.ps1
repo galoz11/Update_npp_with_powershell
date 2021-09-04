@@ -102,7 +102,7 @@ function New-IniContent {
 }
 
 
-function Out-IniFile($InputObject, $FilePath)
+function Out-IniFile1($InputObject, $FilePath)
 {
     $outFile = New-Item -Force -ItemType file -Path $Filepath
     foreach ($i in $InputObject.keys)
@@ -128,14 +128,16 @@ function Out-IniFile($InputObject, $FilePath)
     }
 }
 
+. .\interFunction.ps1
 
 $testIni  = Get-IniFile 'g.ini'
 $ggg = $testIni.noSection.guy
 $ggg1 = $testIni.owner.name
 $ggg2 = $testIni.owner.comments
 
-$testIni.owner.name = "66-1920"
-Out-IniFile $testIni g.ini
+$testIni.owner.name = "1920"
+# Out-IniFile $testIni g.ini
+$testIni | Out-IniFile g.ini -Force
 
 Write-Host $ggg
 Write-Host $ggg1
