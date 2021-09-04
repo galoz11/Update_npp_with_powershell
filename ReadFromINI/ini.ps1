@@ -136,7 +136,7 @@ $ggg1 = $testIni.owner.name
 $ggg2 = $testIni.owner.comments
 
 $testIni.owner.name = "1920"
-# Out-IniFile $testIni g.ini
+Out-IniFile $testIni 'D:\myScripts\Powershell\ReadFromINI\g1.ini'
 $testIni | Out-IniFile g.ini -Force
 
 Write-Host $ggg

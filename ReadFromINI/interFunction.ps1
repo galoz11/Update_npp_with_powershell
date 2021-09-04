@@ -2,43 +2,34 @@ Function Out-IniFile {
     <#
     .Synopsis
         Write hash content to INI file
- 
     .Description
         Write hash content to INI file
- 
     .Notes
-        Author : Oliver Lipkau <oliver@lipkau.net>
-        Blog : http://oliver.lipkau.net/blog/
-        Source : https://github.com/lipkau/PsIni
+        Author      : Oliver Lipkau <oliver@lipkau.net>
+        Blog        : http://oliver.lipkau.net/blog/
+        Source      : https://github.com/lipkau/PsIni
                       http://gallery.technet.microsoft.com/scriptcenter/ea40c1ef-c856-434b-b8fb-ebd7a76e8d91
- 
         #Requires -Version 2.0
- 
     .Inputs
         System.String
         System.Collections.IDictionary
- 
     .Outputs
         System.IO.FileSystemInfo
- 
     .Example
         Out-IniFile $IniVar "C:\myinifile.ini"
         -----------
         Description
         Saves the content of the $IniVar Hashtable to the INI File c:\myinifile.ini
- 
     .Example
         $IniVar | Out-IniFile "C:\myinifile.ini" -Force
         -----------
         Description
         Saves the content of the $IniVar Hashtable to the INI File c:\myinifile.ini and overwrites the file if it is already present
- 
     .Example
         $file = Out-IniFile $IniVar "C:\myinifile.ini" -PassThru
         -----------
         Description
         Saves the content of the $IniVar Hashtable to the INI File c:\myinifile.ini and saves the file into $file
- 
     .Example
         $Category1 = @{“Key1”=”Value1”;”Key2”=”Value2”}
         $Category2 = @{“Key1”=”Value1”;”Key2”=”Value2”}
@@ -63,13 +54,13 @@ Function Out-IniFile {
         # Specifies the file encoding. The default is UTF8.
         #
         # Valid values are:
-        # -- ASCII: Uses the encoding for the ASCII (7-bit) character set.
-        # -- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.
-        # -- Byte: Encodes a set of characters into a sequence of bytes.
-        # -- String: Uses the encoding type for a string.
-        # -- Unicode: Encodes in UTF-16 format using the little-endian byte order.
-        # -- UTF7: Encodes in UTF-7 format.
-        # -- UTF8: Encodes in UTF-8 format.
+        # -- ASCII:  Uses the encoding for the ASCII (7-bit) character set.
+        # -- BigEndianUnicode:  Encodes in UTF-16 format using the big-endian byte order.
+        # -- Byte:   Encodes a set of characters into a sequence of bytes.
+        # -- String:  Uses the encoding type for a string.
+        # -- Unicode:  Encodes in UTF-16 format using the little-endian byte order.
+        # -- UTF7:   Encodes in UTF-7 format.
+        # -- UTF8:  Encodes in UTF-8 format.
         [ValidateSet("Unicode", "UTF7", "UTF8", "ASCII", "BigEndianUnicode", "Byte", "String")]
         [Parameter()]
         [String]
@@ -233,4 +224,3 @@ Function Out-IniFile {
         Write-Verbose "$($MyInvocation.MyCommand.Name):: Function ended"
     }
 }
-
