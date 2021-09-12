@@ -1,1 +1,1 @@
-G:\PowerShell\npp\notepad++.exe
+G:\npp++\notepad++.exe

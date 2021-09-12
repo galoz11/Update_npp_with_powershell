@@ -34,6 +34,7 @@ $ChangeDir = Read-Host "Do you Want To Change it ? (y/n)[Enter for No]"
 		Write-Host hhehehe
 		$aApp = $FileBrowser.FileName
 		Write-Host you Change the File to: $aApp -ForegroundColor Green
+		Set-Content -Path $dataFile -Value $aApp
 		}else{
 		Write-Host You Cancel Operation
 		Write-Host "your Current npp Location is:" $aApp -ForegroundColor Green
