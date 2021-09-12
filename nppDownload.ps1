@@ -1,4 +1,4 @@
-
+param([Parameter(Mandatory)]$pathFolder, $extract=$false) 
  # "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.3/npp.8.1.3.portable.x64.7z"
 
 # Get the Latest Notepad++ Version
@@ -14,10 +14,12 @@ $download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/dow
 Write-Host $download
 Write-Host $fileName
 Write-Host $ENV:UserProfile\Desktop\$fileName
+Write-Host $pathFolder 
 # $pathFile = "$ENV:UserProfile\Desktop\$fileName"
-$pathFile = "E:\tmp\nppDownload\$fileName"
+# $pathFile = "E:\tmp\nppDownload\$fileName"
+$pathFile = "$pathFolder$fileName"
 
 Invoke-WebRequest $download -OutFile $pathFile
 
 #Expand-Archive -LiteralPath $pathFile -DestinationPath "G:\GitTests\ff\nnn"
-Expand-Archive -Path $pathFile -DestinationPath E:\tmp\nppDownload -Force
+if($extract){Expand-Archive -Path $pathFile -DestinationPath $pathFolder -Force}
