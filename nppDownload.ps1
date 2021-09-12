@@ -14,6 +14,7 @@ $download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/dow
 Write-Host $download
 Write-Host $fileName
 Write-Host $ENV:UserProfile\Desktop\$fileName
+Write-Host $pathFolder 
 # $pathFile = "$ENV:UserProfile\Desktop\$fileName"
 # $pathFile = "E:\tmp\nppDownload\$fileName"
 $pathFile = "$pathFolder$fileName"
