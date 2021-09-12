@@ -46,15 +46,15 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 
 }
 
-# Notepadd++ Latest Version
+Write-Host "Checking Notepadd++ Latest Version .. " -ForegroundColor Green # Notepadd++ Latest Version
 $repo = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
 $latestRelease = Invoke-WebRequest $repo -Headers @{"Accept"="application/json"}
 $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
-$npp_remote = $latestVersion.Trim("v"," ")
+$npp_remote = $latestVersion.Trim("v"," ") # this is the latest Ver..
 
 
-if ($status){ # if status is ok (true)
+if ($status){ # if status is ok (true), mean that you have a valid local npp
 	$VersionInfo = (Get-Item $aApp).VersionInfo
 	$npp_local = ("{0}.{1}.{2}" -f $VersionInfo.FileMajorPart,$VersionInfo.FileMinorPart, $VersionInfo.FileBuildPart)
 }else{$npp_local = 'not Found'}
