@@ -76,7 +76,7 @@ if ($status){
 	$Agree = Read-Host -Prompt "Do you Want to download and Install a Fresh Copy of Notepad ? [y/n]" 
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
-		. .\nppDownload.ps1 -pathFolder .\Data\
+		. .\nppDownload.ps1 -pathFolder .\Data\ -extract $true
 	} elseif ($Agree -eq "n"){
 		Write-Warning -Message "you type n"
 	} else {

@@ -21,4 +21,4 @@ $pathFile = "$pathFolder$fileName"
 Invoke-WebRequest $download -OutFile $pathFile
 
 #Expand-Archive -LiteralPath $pathFile -DestinationPath "G:\GitTests\ff\nnn"
-if($extract){Expand-Archive -Path $pathFile -DestinationPath E:\tmp\nppDownload -Force}
+if($extract){Expand-Archive -Path $pathFile -DestinationPath $pathFolder -Force}
