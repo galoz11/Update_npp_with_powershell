@@ -20,7 +20,7 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 	if($aApp -like "*notepad++.exe"){$status = $true}else{$status = $false} ## check if content is valid
 	Write-Host 'Portable Notepad++ Location is Set to:' $aApp -ForegroundColor Green
 	if(!$status){Write-Host 'But Somthing is wrong with the path!' -ForegroundColor Red}
-	$ChangeDir = Read-Host "`nDo you Want To Change it ? (y/n)[Enter for No]"
+	$ChangeDir = Read-Host "`nDo you Want To Change it ? [y/N]"
 		if ($ChangeDir -eq "y" ){
 		Add-Type -AssemblyName System.Windows.Forms
 		$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
@@ -64,15 +64,13 @@ if ($status){
 		Write-Host "Remote Version" $npp_remote "= Local" $npp_local -ForegroundColor Green} 
 
 	Write-Host
-	$Agree = Read-Host -Prompt "Do you Want to download and Install the Latest Copy of Notepad++ ? [y/n]" 
+	$Agree = Read-Host -Prompt "Do you Want an upgrad to Github Version ? [y/N]" 
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
 		$nppFolder = Split-Path -Path $aApp
 		. .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
-	} elseif ($Agree -eq "n"){
-		Write-Warning -Message "you type n"
 	} else {
-		Write-Warning -Message "No Good Answer Provide [$Agree]. we Continue"
+		Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"
 	}
 }else{
 	Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red

@@ -22,4 +22,7 @@ $pathFile = "$pathFolder$fileName"
 Invoke-WebRequest $download -OutFile $pathFile # simple download (web location to file name)
 
 #$extrac is default to false unless calling param say it true, and the extract will happend
-if($extract){Expand-Archive -Path $pathFile -DestinationPath $pathFolder -Force}
+if($extract){
+    Expand-Archive -Path $pathFile -DestinationPath $pathFolder -Force
+    Write-host "`nNotepad++ Was Just upgrade to the latest version!!`nThank you for using this script :)`n" -ForegroundColor Blue
+}
