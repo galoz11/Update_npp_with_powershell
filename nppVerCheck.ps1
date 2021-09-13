@@ -17,15 +17,10 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 
 } else { #if file exist then:
 	$aApp = Get-Content -Path $dataFile
-	## TODO check if content is valid
-	if($aApp -like "*notepad++.exe"){Write-Host "$aApp is Good " -ForegroundColor Green ; $status = $true}else{
-		Write-Host " $aApp is Bad" -ForegroundColor Red ; $status = $false}
-	Write-Host 
-	Write-Host "Your Portable Notepad++ Location is Set to:"
-	Write-Host "    " $aApp -ForegroundColor Green
-	if(!$status){Write-Host 'But Somthing is wrong!' -ForegroundColor Red}
-	Write-Host
-	$ChangeDir = Read-Host "Do you Want To Change it ? (y/n)[Enter for No]"
+	if($aApp -like "*notepad++.exe"){$status = $true}else{$status = $false} ## check if content is valid
+	Write-Host 'Portable Notepad++ Location is Set to:' $aApp -ForegroundColor Green
+	if(!$status){Write-Host 'But Somthing is wrong with the path!' -ForegroundColor Red}
+	$ChangeDir = Read-Host "`nDo you Want To Change it ? (y/n)[Enter for No]"
 		if ($ChangeDir -eq "y" ){
 		Add-Type -AssemblyName System.Windows.Forms
 		$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
@@ -33,20 +28,18 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 		Filter = 'notepad++.exe (*.exe)|notepad++.exe'
 		}
 			if($FileBrowser.ShowDialog() -eq "ok"){
-			Write-Host hhehehe
 			$aApp = $FileBrowser.FileName
 			Write-Host you Change the File to: $aApp -ForegroundColor Green
 			Set-Content -Path $dataFile -Value $aApp
 			$status = $true
 			}else{
-			Write-Host You Cancel Operation
+				Write-Host "`nYou Cancel `"Change Location Setting`" Operation..`n"
 			Write-Host "your Current npp_remote Location is:" $aApp -ForegroundColor Green
 			}
 		}else{ if (!$status){Write-Host 'Please Fix you npp++ Location folder!'-ForegroundColor Red} }
-
 }
 
-Write-Host "Checking Notepadd++ Latest Version .. " -ForegroundColor Green # Notepadd++ Latest Version
+Write-Host "`nNow Checking Notepadd++ Latest Version form Github.. " -ForegroundColor Green # Notepadd++ Latest Version
 $repo = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
 $latestRelease = Invoke-WebRequest $repo -Headers @{"Accept"="application/json"}
 $json = $latestRelease.Content | ConvertFrom-Json
