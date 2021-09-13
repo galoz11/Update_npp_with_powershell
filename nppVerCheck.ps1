@@ -53,7 +53,6 @@ $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
 $npp_remote = $latestVersion.Trim("v"," ") # this is the latest Ver..
 
-
 if ($status){ # if status is ok (true), mean that you have a valid local npp
 	$VersionInfo = (Get-Item $aApp).VersionInfo
 	$npp_local = ("{0}.{1}.{2}" -f $VersionInfo.FileMajorPart,$VersionInfo.FileMinorPart, $VersionInfo.FileBuildPart)
@@ -71,7 +70,6 @@ if ($status){
 	if ([System.Version]$npp_remote -eq [System.Version]$npp_local) {
 		Write-Host "Remote Version" $npp_remote "= Local" $npp_local -ForegroundColor Green} 
 
-
 	Write-Host
 	$Agree = Read-Host -Prompt "Do you Want to download and Install the Latest Copy of Notepad++ ? [y/n]" 
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
@@ -86,8 +84,4 @@ if ($status){
 }else{
 	Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red
 }
-# Add-Type -AssemblyName System.Windows.Forms
-# $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = [Environment]::GetFolderPath('MyComputer') }
-# $null = $FileBrowser.ShowDialog()
-# Write-Host
-# Write-Host you choose the File: $FileBrowser.FileName
+
