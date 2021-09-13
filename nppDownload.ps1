@@ -15,11 +15,11 @@ Write-Host $download
 Write-Host $fileName
 Write-Host $ENV:UserProfile\Desktop\$fileName
 Write-Host $pathFolder 
+# this is how to refer to user descktop..
 # $pathFile = "$ENV:UserProfile\Desktop\$fileName"
-# $pathFile = "E:\tmp\nppDownload\$fileName"
 $pathFile = "$pathFolder$fileName"
 
-Invoke-WebRequest $download -OutFile $pathFile
+Invoke-WebRequest $download -OutFile $pathFile # simple download (web location to file name)
 
-#Expand-Archive -LiteralPath $pathFile -DestinationPath "G:\GitTests\ff\nnn"
+#$extrac is default to false unless calling param say it true, and the extract will happend
 if($extract){Expand-Archive -Path $pathFile -DestinationPath $pathFolder -Force}
