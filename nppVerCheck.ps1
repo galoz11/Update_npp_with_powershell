@@ -39,7 +39,7 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 			}
 		}else{ if (!$status){Write-Host 'Please Fix you npp++ Location folder!'-ForegroundColor Red} }
 }
-
+$nppFolder = Split-Path -Path $aApp
 Write-Host "`nNow Checking Notepadd++ Latest Version form Github.. " -ForegroundColor Green # Notepadd++ Latest Version
 $repo = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
 $latestRelease = Invoke-WebRequest $repo -Headers @{"Accept"="application/json"}
@@ -70,22 +70,35 @@ if ($status){
 	$Agree = Read-Host -Prompt "Do you Want an upgrad to Github Version ? [y/N]" 
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
-		$nppFolder = Split-Path -Path $aApp
 		# . .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
 		$download = $true 
 		}else{Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"}
 	}
 	}else{Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red	}
 
+# todo check cloud choice ===========================================================================
+if ((Test-Path $nppFolder\cloud\choice -PathType Leaf)){
+	$cloud = Get-Content -Path $nppFolder\cloud\choice
+	Write-host "cloud setting is enable in: $cloud\ "
+	}else{Write-Host 'No cloud setting found'}
+	
+# Backup Configuration files 
+Write-Host "`nBackup Configuration files`n" -ForegroundColor Green
+$bufiles = @('config.xml','contextMenu.xml','langs.xml','nativeLang.xml','shortcuts.xml','stylers.xml')
+$null = if (!(Test-Path $nppFolder\!BackUp -PathType Container)){New-Item  -Path $nppFolder\!BackUp -itemType Directory}
+foreach ($file in $bufiles) {Copy-Item $nppFolder\$file -Destination $nppFolder\!BackUp\ -Force }
 
-# this is the download part
+# this is the download part =======================================
 if($download){
+
 	$fileName = "npp.$npp_remote.portable.x64.zip"
 	Write-Host Dowloading latest release
 	$download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/$latestVersion/$fileName"
 	$pathFile = "$nppFolder\$fileName"
 	Invoke-WebRequest $download -OutFile $pathFile # simple download (web location to file name)
 	if($true){Expand-Archive -Path $pathFile -DestinationPath $nppFolder\ -Force
-		Write-host "`nNotepad++ Was Just upgrade to the latest version!!`nThank you for using this script :)`n" -ForegroundColor Blue }
+		Write-host "`nNotepad++ Was Just upgrade to the latest version!!`nThank you for using this script :)`n" -ForegroundColor Blue 
+		Remove-Item $pathFile }
 }
-
+# Restore Configuration files 
+foreach ($file in $bufiles) {Copy-Item $nppFolder\!BackUp\$file -Destination $nppFolder\ -Force }
