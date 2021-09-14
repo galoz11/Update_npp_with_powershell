@@ -60,11 +60,11 @@ Write-Host "`nGithub Notepadd++ Version is: " $npp_remote
 Write-Host "  Your Notepadd++ Version is: " $npp_local
 Write-Host
 
-if ($status){
+if ($status){ # if everything is ok
 	if ([System.Version]$npp_remote -gt [System.Version]$npp_local) {
 		Write-Host "Remote Version" $npp_remote "> Local" $npp_local -ForegroundColor Red} 
 	if ([System.Version]$npp_remote -lt [System.Version]$npp_local) {
-		Write-Host "Remote Version" $npp_remote "< Local" $npp_local} 
+		Write-Host "Remote Version" $npp_remote "< Local" $npp_local "..and this is very wierd :/"} 
 	if ([System.Version]$npp_remote -eq [System.Version]$npp_local) {
 		Write-Host "Remote Version" $npp_remote "= Local" $npp_local -ForegroundColor Green
 		$samever = $true} 
@@ -87,7 +87,7 @@ if ((Test-Path $nppFolder\cloud\choice -PathType Leaf)){
 	}else{Write-Host 'No cloud setting found'}
 
 	
-	# this is the download part =======================================
+# this is the download part + Back up and restore =======================================
 if($download){
 	# Backup Configuration files 
 	Write-Host "`nBackup Configuration files`n" -ForegroundColor Green
