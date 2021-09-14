@@ -47,16 +47,12 @@ $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
 $npp_remote = $latestVersion.Trim("v"," ") # this is the latest Ver..
 
-
-
-
-
 if ($status){ # if status is ok (true), mean that you have a valid local npp
 	$VersionInfo = (Get-Item $aApp).VersionInfo
 	$npp_local = ("{0}.{1}.{2}" -f $VersionInfo.FileMajorPart,$VersionInfo.FileMinorPart, $VersionInfo.FileBuildPart)
 }else{$npp_local = 'not Found'}
-Write-Host
-Write-Host "Github Notepadd++ Version is: " $npp_remote
+
+Write-Host "`nGithub Notepadd++ Version is: " $npp_remote
 Write-Host "  Your Notepadd++ Version is: " $npp_local
 Write-Host
 
@@ -76,13 +72,13 @@ if ($status){
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
 		$nppFolder = Split-Path -Path $aApp
 		# . .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
-		$download = $true
+		$download = $true 
 		}else{Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"}
 	}
 	}else{Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red	}
 
 
-
+# this is the download part
 if($download){
 	$fileName = "npp.$npp_remote.portable.x64.zip"
 	Write-Host Dowloading latest release
