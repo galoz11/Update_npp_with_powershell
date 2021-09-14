@@ -47,6 +47,10 @@ $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
 $npp_remote = $latestVersion.Trim("v"," ") # this is the latest Ver..
 
+
+
+
+
 if ($status){ # if status is ok (true), mean that you have a valid local npp
 	$VersionInfo = (Get-Item $aApp).VersionInfo
 	$npp_local = ("{0}.{1}.{2}" -f $VersionInfo.FileMajorPart,$VersionInfo.FileMinorPart, $VersionInfo.FileBuildPart)
@@ -71,10 +75,21 @@ if ($status){
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
 		$nppFolder = Split-Path -Path $aApp
-		. .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
+		# . .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
+		$download = $true
 		}else{Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"}
 	}
-}else{
-	Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red
+	}else{Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red	}
+
+
+
+if($download){
+	$fileName = "npp.$npp_remote.portable.x64.zip"
+	Write-Host Dowloading latest release
+	$download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/$latestVersion/$fileName"
+	$pathFile = "$nppFolder\$fileName"
+	Invoke-WebRequest $download -OutFile $pathFile # simple download (web location to file name)
+	if($true){Expand-Archive -Path $pathFile -DestinationPath $nppFolder\ -Force
+		Write-host "`nNotepad++ Was Just upgrade to the latest version!!`nThank you for using this script :)`n" -ForegroundColor Blue }
 }
 
