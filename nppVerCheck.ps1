@@ -62,16 +62,17 @@ if ($status){
 	if ([System.Version]$npp_remote -lt [System.Version]$npp_local) {
 		Write-Host "Remote Version" $npp_remote "< Local" $npp_local} 
 	if ([System.Version]$npp_remote -eq [System.Version]$npp_local) {
-		Write-Host "Remote Version" $npp_remote "= Local" $npp_local -ForegroundColor Green} 
+		Write-Host "Remote Version" $npp_remote "= Local" $npp_local -ForegroundColor Green
+		$samever = $true} 
 
+	if($samever){write-host 'you version is already up to date'}else{
 	Write-Host
 	$Agree = Read-Host -Prompt "Do you Want an upgrad to Github Version ? [y/N]" 
 	if (($Agree -eq "y") -or ($Agree -eq "ye")) {
 		Write-Host "you type [$Agree] we continue Download and install" -ForegroundColor Green
 		$nppFolder = Split-Path -Path $aApp
 		. .\nppDownload.ps1 -pathFolder $nppFolder\ -extract $true
-	} else {
-		Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"
+		}else{Write-Host "`nNo Operation was taking place!`nThank you for using my Script :)`n"}
 	}
 }else{
 	Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red
