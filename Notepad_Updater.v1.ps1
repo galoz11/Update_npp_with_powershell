@@ -85,9 +85,10 @@ if ($status){ # if everything is ok
 	}
 	}else{Write-Host 'No local Copy of npp++ is found, Please Download a fresh Portable copy.' -ForegroundColor Red	}
 
-# todo check cloud choice ===========================================================================
+# Check if cloud option is on ===========================================================================
 if ((Test-Path $nppFolder\cloud\choice -PathType Leaf)){
 	$cloud = Get-Content -Path $nppFolder\cloud\choice
+	# $cloudB = $true  # bypass backup and restore
 	Write-host "cloud setting is enable in: $cloud\ "
 	}else{Write-Host 'No cloud setting found'}
 
