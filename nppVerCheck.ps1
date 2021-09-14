@@ -18,6 +18,7 @@ if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 } else { #if file exist then:
 	$aApp = Get-Content -Path $dataFile
 	if($aApp -like "*notepad++.exe"){$status = $true}else{$status = $false} ## check if content is valid
+	if(Test-Path $aApp){$status = $true}else{$status = $false}
 	Write-Host 'Portable Notepad++ Location is Set to:' $aApp -ForegroundColor Green
 	if(!$status){Write-Host 'But Somthing is wrong with the path!' -ForegroundColor Red}
 	$ChangeDir = Read-Host "`nDo you Want To Change it ? [y/N]"
