@@ -1,65 +1,65 @@
-# Guy Boazy Script for Upgrade Notepadd++ Portable version with powershell
-# this script will compare your local ver to latest ver on github
-# and if neccery will upgrade your ver with backup and restore config files
+# Script for Upgrade Notepadd++ Portable version with powershell.
+# this script will compare your local version to latest version from github.
+# and if necessary it will upgrade your version with backup and restore config files
 
 # SCRIPT START HERE
-# Creat Data Folder (if Not Exist), Set Datafile path Variable
 $config_folder = '.\Data'
 $dataFile = "$config_folder\settings.txt"
+# Creat Data Folder (if Not Exist)
 $null = if (!(Test-Path $config_folder -PathType Container)){New-Item  -Path $config_folder -itemType Directory}
 
 # Deal with Local Notepad Location\
-if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
+if (!(Test-Path -Path $dataFile -PathType Leaf)){
+	 # if settings.txt not exist, do that:
 	Write-Host 'Configurations File Not exist' -ForegroundColor Red
-	$null = Read-Host -Prompt "Please Hit Enter To set your Portable Notepad++.exe Location"
-
+	$null = Read-Host -Prompt "Hit Enter To Locate your Portable Notepad++.exe Location"
+	# prepare "Select app Dialog"
 	Add-Type -AssemblyName System.Windows.Forms
 	$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
 		 InitialDirectory = [Environment]::GetFolderPath('MyComputer') 
-		 Filter = 'notepad++.exe (*.exe)|notepad++.exe'
-		}
+		 Filter = 'notepad++.exe (*.exe)|notepad++.exe'	}
 	$null = $FileBrowser.ShowDialog()
-# this line will work after selecting the file
+# this line will work after selecting notepadd++ file
 	$aApp = $FileBrowser.FileName
-	Write-Host 'you choose the File: ' $aApp
-	Set-Content -Path $dataFile -Value $aApp -Force #creating Conf file with settings
-	$status = $true
-} else { #if file exist then:
-	$aApp = Get-Content -Path $dataFile
+	Write-Host  $aApp ' was Selected'
+	Set-Content -Path $dataFile -Value $aApp -Force #creating Conf file with settings (settings.txt)
+	$status = $true # set the status to ok :)
+} else { #if settings.txt exist then:
+	$aApp = Get-Content -Path $dataFile #set $aApp to notepadd++.exe full path
 	if($aApp -like "*notepad++.exe"){$status = $true}else{$status = $false} ## check if content is valid
-	if(Test-Path $aApp){$status = $true}else{$status = $false}
+	if(Test-Path $aApp){$status = $true}else{$status = $false} ## check if content is exist
 	Write-Host 'Portable Notepad++ Location is Set to:' $aApp -ForegroundColor Green
 	if(!$status){Write-Host 'But Somthing is wrong with the path!' -ForegroundColor Red}
-	$ChangeDir = Read-Host "`nDo you Want To Change it ? [y/N]"
+	$ChangeDir = Read-Host "`nDo you Want To Change this Location ? [y/N]"
 		if ($ChangeDir -eq "y" ){
 		Add-Type -AssemblyName System.Windows.Forms
 		$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
 		InitialDirectory = [Environment]::GetFolderPath('MyComputer') 
-		Filter = 'notepad++.exe (*.exe)|notepad++.exe'
-		}
+		Filter = 'notepad++.exe (*.exe)|notepad++.exe'}
 			if($FileBrowser.ShowDialog() -eq "ok"){
-			$aApp = $FileBrowser.FileName
-			Write-Host you Change the File to: $aApp -ForegroundColor Green
-			Set-Content -Path $dataFile -Value $aApp
-			$status = $true
+				$status = $true
+				$aApp = $FileBrowser.FileName
+				Set-Content -Path $dataFile -Value $aApp
+				Write-Host you Change the File to: $aApp -ForegroundColor Green
 			}else{
 				Write-Host "`nYou Cancel `"Change Location Setting`" Operation..`n"
-			Write-Host "your Current npp_remote Location is:" $aApp -ForegroundColor Green
+				Write-Host "your Current npp_remote Location is:" $aApp -ForegroundColor Green
 			}
 		}else{ if (!$status){Write-Host 'Please Fix you npp++ Location folder!'-ForegroundColor Red} }
 }
-$nppFolder = Split-Path -Path $aApp
-Write-Host "`nNow Checking Notepadd++ Latest Version form Github.. " -ForegroundColor Green # Notepadd++ Latest Version
+
+$nppFolder = Split-Path -Path $aApp # mark the parent folder full path
+Write-Host "`nNow Checking Notepadd++ Latest Version form Github.. " -ForegroundColor Green 
 $repo = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
 $latestRelease = Invoke-WebRequest $repo -Headers @{"Accept"="application/json"}
 $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
-$npp_remote = $latestVersion.Trim("v"," ") # this is the latest Ver..
+$npp_remote = $latestVersion.Trim("v"," ") # this is the latest repo Ver..
 
 if ($status){ # if status is ok (true), mean that you have a valid local npp
-	$VersionInfo = (Get-Item $aApp).VersionInfo
+	$VersionInfo = (Get-Item $aApp).VersionInfo # get local version
 	$npp_local = ("{0}.{1}.{2}" -f $VersionInfo.FileMajorPart,$VersionInfo.FileMinorPart, $VersionInfo.FileBuildPart)
-}else{$npp_local = 'not Found'}
+}else{$npp_local = 'Not Found'}
 
 Write-Host "`nGithub Notepadd++ Version is: " $npp_remote
 Write-Host "  Your Notepadd++ Version is: " $npp_local
