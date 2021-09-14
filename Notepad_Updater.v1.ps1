@@ -1,3 +1,8 @@
+# Guy Boazy Script for Upgrade Notepadd++ Portable version with powershell
+# this script will compare your local ver to latest ver on github
+# and if neccery will upgrade your ver with backup and restore config files
+
+# SCRIPT START HERE
 # Creat Data Folder (if Not Exist), Set Datafile path Variable
 $config_folder = '.\Data'
 $dataFile = "$config_folder\settings.txt"
