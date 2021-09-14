@@ -1,19 +1,24 @@
-# Creat Data Folder if Not Exist, Set Datafile Variable
-if (!(Test-Path .\Data -PathType Container)){New-Item  -Path .\Data -itemType Directory}
-$dataFile = ".\Data\settings.txt"
+# Creat Data Folder (if Not Exist), Set Datafile path Variable
+$config_folder = '.\Data'
+$dataFile = "$config_folder\settings.txt"
+$null = if (!(Test-Path $config_folder -PathType Container)){New-Item  -Path $config_folder -itemType Directory}
 
 # Deal with Local Notepad Location\
 if (!(Test-Path -Path $dataFile -PathType Leaf)){ # if file not exist, do that:
 	Write-Host 'Configurations File Not exist' -ForegroundColor Red
-	$null = Read-Host -Prompt "Please Hit Enter To set your Portable Notepad++ Location"
+	$null = Read-Host -Prompt "Please Hit Enter To set your Portable Notepad++.exe Location"
 
 	Add-Type -AssemblyName System.Windows.Forms
-	$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = [Environment]::GetFolderPath('MyComputer') }
+	$FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
+		 InitialDirectory = [Environment]::GetFolderPath('MyComputer') 
+		 Filter = 'notepad++.exe (*.exe)|notepad++.exe'
+		}
 	$null = $FileBrowser.ShowDialog()
 # this line will work after selecting the file
 	$aApp = $FileBrowser.FileName
 	Write-Host 'you choose the File: ' $aApp
 	Set-Content -Path $dataFile -Value $aApp -Force #creating Conf file with settings
+	$status = $true
 } else { #if file exist then:
 	$aApp = Get-Content -Path $dataFile
 	if($aApp -like "*notepad++.exe"){$status = $true}else{$status = $false} ## check if content is valid
@@ -83,21 +88,22 @@ if ((Test-Path $nppFolder\cloud\choice -PathType Leaf)){
 
 	
 	# this is the download part =======================================
-	if($download){
-		# Backup Configuration files 
+if($download){
+	# Backup Configuration files 
 	Write-Host "`nBackup Configuration files`n" -ForegroundColor Green
 	$bufiles = @('config.xml','contextMenu.xml','langs.xml','nativeLang.xml','shortcuts.xml','stylers.xml')
 	$null = if (!(Test-Path $nppFolder\!BackUp -PathType Container)){New-Item  -Path $nppFolder\!BackUp -itemType Directory}
 	foreach ($file in $bufiles) {Copy-Item $nppFolder\$file -Destination $nppFolder\!BackUp\ -Force }
 		
 	$fileName = "npp.$npp_remote.portable.x64.zip"
-	Write-Host Dowloading latest release
+	Write-Host 'Dowloading latest release..'
 	$download = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/$latestVersion/$fileName"
 	$pathFile = "$nppFolder\$fileName"
 	Invoke-WebRequest $download -OutFile $pathFile # simple download (web location to file name)
-	if($true){Expand-Archive -Path $pathFile -DestinationPath $nppFolder\ -Force
-	# Restore Configuration files 
-	foreach ($file in $bufiles) {Copy-Item $nppFolder\!BackUp\$file -Destination $nppFolder\ -Force }
-	Remove-Item $pathFile }
+	Write-Host 'Unzip the file..'
+	Expand-Archive -Path $pathFile -DestinationPath $nppFolder\ -Force  #extract file
+	Write-Host "`nRestore Configuration files`n" -ForegroundColor Green
+	foreach ($file in $bufiles) {Copy-Item $nppFolder\!BackUp\$file -Destination $nppFolder\ -Force } # Restore Configuration files 
+	Remove-Item $pathFile # Delete zip file
 	Write-host "`nNotepad++ Was Just upgrade to the latest version!!`nThank you for using this script :)`n" -ForegroundColor Blue 
-	}
+}
